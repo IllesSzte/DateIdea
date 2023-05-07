@@ -17,7 +17,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -51,7 +55,7 @@ public class DateListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_shop_list);
+        setContentView(R.layout.activity_date_list);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
@@ -71,7 +75,7 @@ public class DateListActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mAdapter);
 
         mFirestore = FirebaseFirestore.getInstance();
-        mItems = mFirestore.collection("Items");
+        mItems = mFirestore.collection("Dates");
         queryData();
 
         IntentFilter filter = new IntentFilter();
@@ -88,26 +92,24 @@ public class DateListActivity extends AppCompatActivity {
 
     private void initializeData() {
         dateIdeas.clear();
-        mItems.get().addOnSuccessListener(queryDocumentSnapshots -> {
+        mItems.orderBy("name", Query.Direction.DESCENDING).addSnapshotListener((queryDocumentSnapshots, error) -> {
+            if (error != null) {
+                Log.w(LOG_TAG, "Listen failed.", error);
+                return;
+            }
+
+            dateIdeas.clear();
             for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
                 DateIdea item = document.toObject(DateIdea.class);
                 item.setId(document.getId());
                 dateIdeas.add(item);
             }
 
-            if (dateIdeas.size() == 0) {
-                String[] itemsList = getResources().getStringArray(R.array.shopping_item_names);
-                String[] itemsPrice = getResources().getStringArray(R.array.shopping_item_price);
-
-                for (int i = 0; i < itemsList.length; i++) {
-                    dateIdeas.add(new DateIdea(
-                            itemsList[i],
-                            itemsPrice[i], 0));
-                }
-            }
             mAdapter.notifyDataSetChanged();
         });
     }
+
+
 
     private void queryData() {
         dateIdeas.clear();
@@ -132,12 +134,22 @@ public class DateListActivity extends AppCompatActivity {
         ref.delete()
                 .addOnSuccessListener(success -> {
                     Log.d(LOG_TAG, "Item is successfully deleted: " + item._getId());
+                    Toast.makeText(this, "Item " + item._getId() + " is successfully deleted.", Toast.LENGTH_LONG).show();
+
+                    Animation fadeOut = new AlphaAnimation(1, 0);
+                    fadeOut.setInterpolator(new AccelerateInterpolator());
+                    fadeOut.setDuration(1000);
+
+                    TextView successMessage = findViewById(R.id.delete);
+                    successMessage.setText("Item is successfully deleted: " + item.getName());
+                    successMessage.startAnimation(fadeOut);
+
+                    // Itt hívjuk meg a queryData() metódust a törlés után
+                    queryData();
                 })
                 .addOnFailureListener(fail -> {
                     Toast.makeText(this, "Item " + item._getId() + " cannot be deleted.", Toast.LENGTH_LONG).show();
                 });
-
-        queryData();
         mNotificationHelper.cancel();
     }
 
@@ -186,11 +198,27 @@ public class DateListActivity extends AppCompatActivity {
 
     }
 
-    public void updateDate(DateIdea currentItem) {
+
+
+    public void createNewDate(MenuItem item) {
+        Intent intent = new Intent(this, CreateDateActivity.class);
+        startActivity(intent);
     }
 
-//    public void updateDate(DateIdea currentItem) {
-//        Intent intent = new Intent(this, ModifyDateActivity.class);
-//        startActivity(intent);
-//    }
+    public void logOut(MenuItem item) {
+        Intent intent = new Intent(this, WelcomePageActivity.class);
+        startActivity(intent);
+    }
+
+    public void updateDate(DateIdea dateIdea) {
+        Intent intent = new Intent(this, ModifyDateActivity.class);
+        intent.putExtra("date_idea", dateIdea);
+        startActivity(intent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        queryData(); // itt frissítjük az adatokat
+    }
 }

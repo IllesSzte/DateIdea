@@ -35,7 +35,7 @@
         tools:layout_editor_absoluteX="16dp" />
 
     <Button
-        android:id="@+id/login"
+        android:id="@+id/modify"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/create_new_date"
@@ -45,5 +45,17 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextPassword"
+        app:layout_constraintVertical_bias="0.078" />
+    <Button
+        android:id="@+id/listAllDate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/list_all_dates"
+        android:onClick="listAllDate"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/modify"
         app:layout_constraintVertical_bias="0.078" />
 </androidx.constraintlayout.widget.ConstraintLayout>

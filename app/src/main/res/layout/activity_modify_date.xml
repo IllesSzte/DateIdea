@@ -35,11 +35,11 @@
         tools:layout_editor_absoluteX="16dp" />
 
     <Button
-        android:id="@+id/login"
+        android:id="@+id/modify"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/modify"
-        android:onClick="modifyDateIdea"
+        android:onClick="modify"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"

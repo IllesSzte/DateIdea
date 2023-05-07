@@ -32,6 +32,6 @@ public class RandomLoader extends AsyncTaskLoader<String> {
             e.printStackTrace();
         }
 
-        return "Bejelentekezés vendégként " + ms + " ms után!";
+        return "Login as a guest";
     }
 }

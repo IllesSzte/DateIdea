@@ -1,15 +1,16 @@
 package com.example.shop;
 
-public class DateIdea {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class DateIdea implements Parcelable{
     private String id;
     private String name;
     private String price;
-    private Integer cartedCount;
 
-    public DateIdea(String name, String price, Integer cartedCount) {
+    public DateIdea(String name, String price) {
         this.name = name;
         this.price = price;
-        this.cartedCount = cartedCount;
     }
 
     public DateIdea() {
@@ -36,4 +37,34 @@ public class DateIdea {
     public void setId(String id) {
         this.id = id;
     }
+    protected DateIdea(Parcel in) {
+        id = in.readString();
+        name = in.readString();
+        price = in.readString();
+    }
+
+    public static final Parcelable.Creator<DateIdea> CREATOR = new Creator<DateIdea>() {
+        @Override
+        public DateIdea createFromParcel(Parcel in) {
+            return new DateIdea(in);
+        }
+
+        @Override
+        public DateIdea[] newArray(int size) {
+            return new DateIdea[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(name);
+        dest.writeString(price);
+    }
 }
+

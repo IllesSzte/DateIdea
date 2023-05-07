@@ -20,7 +20,6 @@ import com.google.firebase.auth.FirebaseAuth;
 public class RegisterActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private static final String LOG_TAG = RegisterActivity.class.getName();
     private static final String PREF_KEY = RegisterActivity.class.getPackage().toString();
-    private static final int SECRET_KEY = 99;
 
     EditText userNameEditText;
     EditText userEmailEditText;
@@ -38,22 +37,12 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        // Bundle bundle = getIntent().getExtras();
-        // int secret_key = bundle.getInt("SECRET_KEY");
-        int secret_key = getIntent().getIntExtra("SECRET_KEY", 0);
-
-        if (secret_key != 99) {
-            finish();
-        }
-
         userNameEditText = findViewById(R.id.userNameEditText);
         userEmailEditText = findViewById(R.id.userEmailEditText);
         passwordEditText = findViewById(R.id.passwordEditText);
         passwordConfirmEditText = findViewById(R.id.passwordAgainEditText);
-        phoneEditText = findViewById(R.id.phoneEditText);
-        spinner = findViewById(R.id.phoneSpinner);
         accountTypeGroup = findViewById(R.id.accountTypeGroup);
-        accountTypeGroup.check(R.id.buyer);
+        accountTypeGroup.check(R.id.male);
 
         preferences = getSharedPreferences(PREF_KEY, MODE_PRIVATE);
         String userName = preferences.getString("userName", "");
@@ -62,12 +51,6 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
         userNameEditText.setText(userName);
         passwordEditText.setText(password);
         passwordConfirmEditText.setText(password);
-
-        spinner.setOnItemSelectedListener(this);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.phone_labels, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -81,20 +64,14 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
         String passwordConfirm = passwordConfirmEditText.getText().toString();
 
         if (!password.equals(passwordConfirm)) {
-            Log.e(LOG_TAG, "Nem egyenlő a jelszó és a megerősítése.");
+            Log.e(LOG_TAG, "The given password doesn't the same.");
             return;
         }
-
-        String phone = phoneEditText.getText().toString();
-        String phoneType = spinner.getSelectedItem().toString();
 
         int accountTypeId = accountTypeGroup.getCheckedRadioButtonId();
         View radioButton = accountTypeGroup.findViewById(accountTypeId);
         int id = accountTypeGroup.indexOfChild(radioButton);
         String accountType =  ((RadioButton)accountTypeGroup.getChildAt(id)).getText().toString();
-
-        Log.i(LOG_TAG, "Regisztrált: " + userName + ", e-mail: " + email);
-        // startShopping();
 
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
             if(task.isSuccessful()){
@@ -111,9 +88,8 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
         finish();
     }
 
-    private void startShopping(/* registered used class */) {
+    private void startShopping() {
         Intent intent = new Intent(this, DateListActivity.class);
-        // intent.putExtra("SECRET_KEY", SECRET_KEY);
         startActivity(intent);
     }
 

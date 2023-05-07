@@ -8,6 +8,6 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        new NotificationHelper(context).send("It's time to shop something!");
+        new NotificationHelper(context).send("Let's go for a date!");
     }
 }

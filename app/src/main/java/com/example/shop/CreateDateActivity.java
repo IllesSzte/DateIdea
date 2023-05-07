@@ -1,12 +1,17 @@
 package com.example.shop;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.MenuItemCompat;
 
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -36,15 +41,14 @@ public class CreateDateActivity extends AppCompatActivity {
         mItemsData = new ArrayList<>();
         mAdapter = new DateIdeaAdapter(this, mItemsData);
         mFirestore = FirebaseFirestore.getInstance();
-        mItems = mFirestore.collection("Items");
+        mItems = mFirestore.collection("Dates");
 
     }
-
     public void createNewDateIdea(View view) {
         String dateName = dateEditText.getText().toString();
         String price = priceEditText.getText().toString();
 
-        DateIdea date = new DateIdea(dateName, price, 0);
+        DateIdea date = new DateIdea(dateName, price);
         mItems.add(date)
                 .addOnSuccessListener(documentReference -> {
                     Log.d(LOG_TAG, "Item added successfully!");
@@ -61,5 +65,10 @@ public class CreateDateActivity extends AppCompatActivity {
                     Log.w(LOG_TAG, "Error adding item", e);
                     Toast.makeText(this, "Failed to add item", Toast.LENGTH_LONG).show();
                 });
+    }
+
+    public void listAllDate(View view) {
+        Intent intent = new Intent(this, DateListActivity.class);
+        startActivity(intent);
     }
 }

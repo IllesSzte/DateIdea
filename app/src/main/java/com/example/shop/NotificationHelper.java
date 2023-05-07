@@ -31,12 +31,12 @@ public class NotificationHelper {
             return;
 
         NotificationChannel channel = new NotificationChannel
-                (CHANNEL_ID, "Shop Notification", NotificationManager.IMPORTANCE_HIGH);
+                (CHANNEL_ID, "Date Notification", NotificationManager.IMPORTANCE_HIGH);
 
         channel.enableLights(true);
         channel.setLightColor(Color.RED);
         channel.enableVibration(true);
-        channel.setDescription("Notifications from Shop application");
+        channel.setDescription("Notifications from Date application");
 
         mNotifyManager.createNotificationChannel(channel);
     }
@@ -46,7 +46,7 @@ public class NotificationHelper {
         PendingIntent pendingIntent = PendingIntent.getActivity(mContext, NOTIFICATION_ID, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext, CHANNEL_ID)
-                .setContentTitle("Shop Application")
+                .setContentTitle("Date Application")
                 .setContentText(message)
                 .setSmallIcon(R.drawable.ic_shopping_cart)
                 .setContentIntent(pendingIntent);

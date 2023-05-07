@@ -5,23 +5,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".WelcomePageActivity">
+
     <TextView
         android:id="@+id/registrationTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/register_margin_top"
         android:text="@string/date_it_up"
-        android:textSize="24sp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:textAlignment="center"
-        tools:ignore="MissingConstraints" />
+        android:textSize="36sp"
+        android:textColor="@color/black"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/editTextDateName"/>
+
     <EditText
         android:id="@+id/editTextDateName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="@string/name"
+        android:hint="@string/email_address"
         android:inputType="text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -44,7 +45,7 @@
         tools:layout_editor_absoluteX="16dp" />
 
     <Button
-        android:id="@+id/login"
+        android:id="@+id/modify"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/login"
@@ -79,7 +80,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login"
+        app:layout_constraintTop_toBottomOf="@+id/modify"
         tools:ignore="OnClick" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

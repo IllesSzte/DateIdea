@@ -22,6 +22,7 @@
         <activity android:name=".RegisterActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".CreateDateActivity" />
+        <activity android:name=".ModifyDateActivity" />
         <activity android:name=".WelcomePageActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

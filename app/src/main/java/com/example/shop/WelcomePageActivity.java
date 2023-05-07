@@ -5,8 +5,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -43,6 +46,9 @@ public class WelcomePageActivity
         mAuth = FirebaseAuth.getInstance();
         getSupportLoaderManager().restartLoader(0, null, this);
         Log.i(LOG_TAG, "onCreate");
+        TextView registrationTextView = findViewById(R.id.registrationTextView);
+        Animation fadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.my_animation);
+        registrationTextView.startAnimation(fadeInAnimation);
     }
 
 
@@ -51,7 +57,7 @@ public class WelcomePageActivity
         String password = passwordET.getText().toString();
 
         mAuth.signInWithEmailAndPassword(userName, password).addOnCompleteListener(this, task -> {
-            if(task.isSuccessful()){
+            if (task.isSuccessful()) {
                 Log.d(LOG_TAG, "User loged in successfully");
                 startDate();
             } else {
@@ -68,7 +74,7 @@ public class WelcomePageActivity
 
     public void loginAsGuest(View view) {
         mAuth.signInAnonymously().addOnCompleteListener(this, task -> {
-            if(task.isSuccessful()){
+            if (task.isSuccessful()) {
                 Log.d(LOG_TAG, "Anonym user loged in successfully");
                 startDate();
             } else {
@@ -87,7 +93,9 @@ public class WelcomePageActivity
     protected void onStart() {
         super.onStart();
         Log.i(LOG_TAG, "onStart");
+
     }
+
 
     @Override
     protected void onStop() {

@@ -13,7 +13,7 @@ public class NotificationJobService extends JobService {
     @Override
     public boolean onStartJob(JobParameters params) {
         mNotificationHelper = new NotificationHelper(getApplicationContext());
-        mNotificationHelper.send("It's time to shop something! \\ (•◡•) /");
+        mNotificationHelper.send("It's time for a date");
         return false;
     }
 
