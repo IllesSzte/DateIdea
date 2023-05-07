@@ -76,7 +76,6 @@ public class DateListActivity extends AppCompatActivity {
 
         mFirestore = FirebaseFirestore.getInstance();
         mItems = mFirestore.collection("Dates");
-        queryData();
 
         IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_POWER_CONNECTED);
@@ -134,14 +133,13 @@ public class DateListActivity extends AppCompatActivity {
         ref.delete()
                 .addOnSuccessListener(success -> {
                     Log.d(LOG_TAG, "Item is successfully deleted: " + item._getId());
-                    Toast.makeText(this, "Item " + item._getId() + " is successfully deleted.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "Item " + item.getName() + " is successfully deleted.", Toast.LENGTH_LONG).show();
 
                     Animation fadeOut = new AlphaAnimation(1, 0);
                     fadeOut.setInterpolator(new AccelerateInterpolator());
                     fadeOut.setDuration(1000);
 
                     TextView successMessage = findViewById(R.id.delete);
-                    successMessage.setText("Item is successfully deleted: " + item.getName());
                     successMessage.startAnimation(fadeOut);
 
                     // Itt hívjuk meg a queryData() metódust a törlés után

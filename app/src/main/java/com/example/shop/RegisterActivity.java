@@ -57,7 +57,7 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
         Log.i(LOG_TAG, "onCreate");
     }
 
-    public void register(View view) {
+    public void registration(View view) {
         String userName = userNameEditText.getText().toString();
         String email = userEmailEditText.getText().toString();
         String password = passwordEditText.getText().toString();
